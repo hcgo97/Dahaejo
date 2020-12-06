@@ -1,0 +1,163 @@
+create table cpu(
+name varchar2(50) not null primary key,
+price number not null,
+link varchar2(1000),
+company varchar2(50)
+);
+
+create table mainboard(
+name varchar2(50) not null primary key,
+price number not null,
+link varchar2(1000),
+company varchar2(50)
+);
+
+create table memory(
+name varchar2(50) not null primary key,
+price number not null,
+link varchar2(1000),
+company varchar2(50)
+);
+
+create table gpu(
+name varchar2(50) not null primary key,
+price number not null,
+link varchar2(1000),
+company varchar2(50)
+);
+
+create table power(
+name varchar2(50) not null primary key,
+price number not null,
+link varchar2(1000),
+company varchar2(50)
+);
+
+create table ssdhdd(
+name varchar2(50) not null primary key,
+price number not null,
+link varchar2(1000),
+company varchar2(50)
+);
+
+
+create table computer(
+name varchar2(50) not null primary key,
+cpu varchar2(50) not null,
+mainboard varchar2(50) not null,
+memory varchar2(50) not null,
+gpu varchar2(50) not null,
+power varchar2(50) not null,
+ssdhdd varchar2(50) not null,
+opt varchar2(20),
+
+CONSTRAINT fk_cpu FOREIGN key(cpu) REFERENCES cpu(name),
+CONSTRAINT fk_mainboard FOREIGN key(mainboard) REFERENCES mainboard(name),
+CONSTRAINT fk_memory FOREIGN key(memory) REFERENCES memory(name),
+CONSTRAINT fk_gpu FOREIGN key(gpu) REFERENCES gpu(name),
+CONSTRAINT fk_power FOREIGN key(power) REFERENCES power(name),
+CONSTRAINT fk_ssdhdd FOREIGN key(ssdhdd) REFERENCES ssdhdd(name)
+);
+
+
+create table com_member(
+userid varchar2(20) not null primary key,
+pass varchar2(40) not null,
+name varchar(20) not null,
+email varchar2(30) not null
+);
+
+
+
+create table oneonone (
+unq number not null primary key,
+title varchar2(100) not null,
+name varchar2(20),
+content varchar2(4000),
+hits number default '0',
+rdate timestamp,
+gid number not null,
+insort varchar2(50) not null,
+
+CONSTRAINT fk_one_userid FOREIGN key(name) REFERENCES com_member(userid)
+);
+
+create sequence oneonone_seq
+increment by 1
+start with 1
+maxvalue 99999;
+
+create table qnaboard (
+unq number not null primary key,
+title varchar2(100) not null,
+name varchar2(20),
+content varchar2(4000),
+hits number default '0',
+rdate timestamp,
+gid number not null,
+insort varchar2(50) not null,
+
+CONSTRAINT fk_qna_userid FOREIGN key(name) REFERENCES com_member(userid)
+);
+
+create sequence qnaboard_seq
+increment by 1
+start with 1
+maxvalue 99999;
+
+create table adminboard (
+unq number not null primary key,
+title varchar2(100) not null,
+name varchar2(20),
+content varchar2(4000),
+hits number default '0',
+rdate timestamp,
+gid number not null,
+insort varchar2(50) not null,
+
+CONSTRAINT fk_admin_userid FOREIGN key(name) REFERENCES com_member(userid)
+);
+
+create sequence adminboard_seq
+increment by 1
+start with 1
+maxvalue 99999;
+
+
+
+
+
+create table qna_reply(
+replyunq number not null primary key,
+unq number default '0',
+replytext varchar2(1000) not null,
+replyer varchar2(50) not null,
+redate date default sysdate,
+board_unq number not null,
+
+constraint fk_qnaboard_unq foreign key(board_unq) references qnaboard(unq) ON DELETE CASCADE,
+CONSTRAINT fk_qna_replyer FOREIGN key(replyer) REFERENCES com_member(userid)
+);
+
+
+create sequence qna_reply_seq
+start with 1
+increment by 1;
+
+
+
+create table admin_reply(
+replyunq number not null primary key,
+unq number default '0',
+replytext varchar2(1000) not null,
+replyer varchar2(50) not null,
+redate date default sysdate,
+board_unq number not null,
+
+constraint fk_adminboard_unq foreign key(board_unq) references adminboard(unq) ON DELETE CASCADE,
+CONSTRAINT fk_admin_replyer FOREIGN key(replyer) REFERENCES com_member(userid)
+);
+
+create sequence admin_reply_seq
+start with 1
+increment by 1;
