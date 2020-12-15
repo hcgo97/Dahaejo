@@ -3,7 +3,7 @@
 ## 용도별 조립컴퓨터 추천 웹 사이트
 ## 2020.11
 
-### # not SpringFramework
+### # not use SpringFramework
 ### # only JSP code
 
 
